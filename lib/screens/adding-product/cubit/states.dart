@@ -6,6 +6,8 @@ class ProductAddingInitialState extends ProductAddingStates {}
 
 class ProductAddingLoadingState extends ProductAddingStates {}
 
+class ProductAddingUploadImLoadingState extends ProductAddingStates {}
+
 class ProductAddingSuccessState extends ProductAddingStates {
   // final ProductsResponse productsResponse;
   //
@@ -14,8 +16,11 @@ class ProductAddingSuccessState extends ProductAddingStates {
 }
 
 class ProductAddingErrorState extends ProductAddingStates {
-
   final String error;
 
   ProductAddingErrorState(this.error);
 }
+
+class ProductAddingNetworkSuccessState extends ProductAddingStates {}
+
+class ProductAddingNetworkFailedState extends ProductAddingStates {}

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -6,9 +7,11 @@ import 'package:c_product_flutter/models/Adding/response.dart';
 import 'package:c_product_flutter/network/local/cache_helper.dart';
 import 'package:c_product_flutter/network/remote/dio_helper.dart';
 import 'package:c_product_flutter/screens/adding-product/cubit/states.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class ProductAddingCubit extends Cubit<ProductAddingStates> {
   ProductAddingCubit() : super(ProductAddingInitialState());
@@ -17,6 +20,7 @@ class ProductAddingCubit extends Cubit<ProductAddingStates> {
 
   AddingResponse? addingResponse;
   String? token = CacheHelper.getCacheData(key: 'token');
+
 
   void cubitAddProduct({
     @required int? barcodeId,
@@ -54,6 +58,7 @@ class ProductAddingCubit extends Cubit<ProductAddingStates> {
   }
 
   void cubitUploadImage(File file) async {
+    emit(ProductAddingUploadImLoadingState());
     print('non');
     Map<String, dynamic> map = Map<String, dynamic>();
     map['image'] = file;
@@ -69,14 +74,50 @@ class ProductAddingCubit extends Cubit<ProductAddingStates> {
       data: formData,
       token: 'Bearer $token',
     ).then((value) {
+      emit(ProductAddingSuccessState());
+
       print('ay haga ');
       print(value.data);
     }).catchError((error) {
       print('ay haga 2');
       print('error $error yes-------- $token');
+      emit(ProductAddingErrorState(error.toString()));
     });
 
     // response = await dio.post(path, data: formData);
     // return response.data['id'];
   }
+
+  // void checkNetworkConnection() async{
+  //   ConnectivityResult myresult = ConnectivityResult.none;
+  //   StreamSubscription mysubscription;
+  //
+  //   /** get the current state of network */
+  //   myresult = await Connectivity().checkConnectivity();
+  //
+  //   print('ooooooooooooohhhhhhhhhhhh');
+  //
+  //   /** get the state of network when it's changed */
+  //   mysubscription = Connectivity().onConnectivityChanged.listen((result) {
+  //     myresult = result;
+  //     print('ayyyyyyyyyyyyyyyeeeeeeeehhhhhhhh');
+  //   });
+  //
+  //   if (myresult == ConnectivityResult.wifi) {
+  //     print('Wifi');
+  //     emit(ProductAddingNetworkSuccessState());
+  //     showSimpleNotification(Text("this is a message from simple notification"),
+  //         background: Colors.green);
+  //   } else if (myresult == ConnectivityResult.mobile) {
+  //     print('ya 3am');
+  //     emit(ProductAddingNetworkSuccessState());
+  //     showSimpleNotification(Text("this is a message from simple notification"),
+  //         background: Colors.green);
+  //   } else {
+  //     print('ya 3am leeeeh ${myresult}');
+  //     emit(ProductAddingNetworkFailedState());
+  //     showSimpleNotification(Text("this is a message from simple notification"),
+  //         background: Colors.red);
+  //   }
+  // }
 }

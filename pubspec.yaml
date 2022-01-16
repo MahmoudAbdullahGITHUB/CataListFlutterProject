@@ -30,10 +30,11 @@ dependencies:
   shared_preferences: ^2.0.8
   hexcolor: ^2.0.4
   carousel_pro: ^1.0.0
-  sqflite: ^2.0.0+4
+  sqflite: ^2.0.2
   animated_splash_screen: ^1.1.0
   google_fonts: ^2.1.0
   another_flushbar: ^1.10.28
+  floor: ^1.2.0
 
   # abdullah mansour
   bloc: ^8.0.2
@@ -44,6 +45,11 @@ dependencies:
   conditional_builder_null_safety: ^0.0.6
   image_picker: ^0.8.4+4
 
+  # to show toast or network message in flutter
+  overlay_support: ^1.2.1
+
+  # to check network connection
+  connectivity_plus: ^2.2.0
 
 
 
@@ -62,6 +68,8 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.9.2
+  floor_generator: ^1.2.0
+  build_runner: ^2.1.2
 
 flutter_icons:
   android: true

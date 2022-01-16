@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:c_product_flutter/models/products/ProductsResponse.dart';
@@ -5,6 +6,7 @@ import 'package:c_product_flutter/models/user/LoginResponse.dart';
 import 'package:c_product_flutter/network/remote/dio_helper.dart';
 import 'package:c_product_flutter/screens/home-screen/cubit/states.dart';
 import 'package:c_product_flutter/screens/login-screen/cubit/states.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,6 +14,7 @@ class ProductGettingCubit extends Cubit<ProductGettingStates> {
   ProductGettingCubit() : super(ProductGettingInitialState());
 
   static ProductGettingCubit get(context) => BlocProvider.of(context);
+
 
   ProductsResponse? productsResponse;
 
@@ -34,4 +37,9 @@ class ProductGettingCubit extends Cubit<ProductGettingStates> {
       emit(ProductGettingErrorState(error.toString()));
     });
   }
+
+
+
+
+
 }

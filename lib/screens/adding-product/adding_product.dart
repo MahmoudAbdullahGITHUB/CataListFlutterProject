@@ -7,6 +7,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class AddingProduct extends StatefulWidget {
   static const routName = '/adding_product-screen';
@@ -23,25 +24,42 @@ class _AddingProductState extends State<AddingProduct> {
   var countController = TextEditingController();
   var imageController = TextEditingController();
 
+  var formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => ProductAddingCubit(),
-      child: BlocConsumer<ProductAddingCubit, ProductAddingStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            ProductAddingCubit cubit = ProductAddingCubit.get(context);
-            return Scaffold(
-              appBar: AppBar(),
-              body: AddingBody(
-                barCodeController: barCodeController,
-                priceController: priceController,
-                countController: countController,
-                cubit: cubit,
-                state: state,
-              ),
-            );
-          }),
+    return OverlaySupport.global(
+      child: MaterialApp(
+        home: BlocProvider(
+          create: (BuildContext context) => ProductAddingCubit(),
+          child: BlocConsumer<ProductAddingCubit, ProductAddingStates>(
+              listener: (context, state) {
+                // if (state is ProductAddingNetworkSuccessState) {
+                //   print('yes ');
+                //   showSimpleNotification(Text("this is a message from simple notification"),
+                //       background: Colors.green);
+                // } else if (state is ProductAddingNetworkFailedState) {
+                //   print('so why ');
+                //   showSimpleNotification(Text("this is a message from simple notification"),
+                //       background: Colors.red);
+                // }
+              },
+              builder: (context, state) {
+                ProductAddingCubit cubit = ProductAddingCubit.get(context);
+                return Scaffold(
+                  appBar: AppBar(),
+                  body: AddingBody(
+                    barCodeController: barCodeController,
+                    priceController: priceController,
+                    countController: countController,
+                    cubit: cubit,
+                    state: state,
+                    formKey: formKey,
+                  ),
+                );
+              }),
+        ),
+      ),
     );
   }
 }
